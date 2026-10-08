@@ -1,0 +1,1992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>✈️ Your First Flight — LAX → Istanbul → Tbilisi</title>
+
+<style>
+    :root {
+        --bg: #fff8fb;
+        --card: rgba(255,255,255,0.82);
+        --text: #292333;
+        --muted: #756d7e;
+        --pink: #ff7fa8;
+        --pink-dark: #ed5d8d;
+        --purple: #9b87f5;
+        --blue: #76bdf5;
+        --green: #73c99b;
+        --yellow: #ffd978;
+        --border: rgba(80,60,100,0.10);
+        --shadow: 0 12px 40px rgba(75, 46, 86, 0.09);
+        --radius: 24px;
+    }
+
+    * {
+        box-sizing: border-box;
+        scroll-behavior: smooth;
+    }
+
+    html {
+        scroll-padding-top: 90px;
+    }
+
+    body {
+        margin: 0;
+        font-family:
+            Inter, ui-sans-serif, system-ui, -apple-system,
+            BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: var(--text);
+        background:
+            radial-gradient(circle at 10% 5%, #ffe2ec 0, transparent 25%),
+            radial-gradient(circle at 90% 15%, #e5dcff 0, transparent 24%),
+            radial-gradient(circle at 50% 100%, #dff4ff 0, transparent 28%),
+            var(--bg);
+        line-height: 1.75;
+    }
+
+    /* ---------- TOP BAR ---------- */
+
+    .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        height: 72px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 24px;
+        background: rgba(255,255,255,0.78);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        border-bottom: 1px solid var(--border);
+    }
+
+    .brand {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        font-weight: 800;
+        letter-spacing: -0.3px;
+    }
+
+    .brand-icon {
+        width: 42px;
+        height: 42px;
+        display: grid;
+        place-items: center;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #ff9fbd, #a58df6);
+        box-shadow: 0 8px 20px rgba(165,141,246,0.25);
+        font-size: 21px;
+    }
+
+    .menu-button {
+        width: 46px;
+        height: 46px;
+        border: 0;
+        border-radius: 15px;
+        background: #fff;
+        box-shadow: 0 5px 18px rgba(50,30,70,0.08);
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+        transition: .2s;
+    }
+
+    .menu-button:hover {
+        transform: translateY(-2px);
+    }
+
+    .menu-button span {
+        width: 20px;
+        height: 2px;
+        border-radius: 4px;
+        background: var(--text);
+        transition: .25s;
+    }
+
+    /* ---------- MENU ---------- */
+
+    .menu {
+        position: fixed;
+        z-index: 1002;
+        top: 82px;
+        right: 20px;
+        width: min(330px, calc(100vw - 40px));
+        max-height: calc(100vh - 105px);
+        overflow-y: auto;
+        padding: 15px;
+        background: rgba(255,255,255,0.95);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        box-shadow: 0 25px 60px rgba(50,30,70,0.17);
+        transform: translateY(-10px) scale(.97);
+        opacity: 0;
+        pointer-events: none;
+        transition: .22s ease;
+    }
+
+    .menu.open {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .menu-title {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        font-weight: 800;
+        color: var(--muted);
+        padding: 8px 12px;
+    }
+
+    .menu a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 11px 12px;
+        border-radius: 13px;
+        text-decoration: none;
+        color: var(--text);
+        font-size: 14px;
+        font-weight: 600;
+        transition: .15s;
+    }
+
+    .menu a:hover {
+        background: #fff0f5;
+        color: var(--pink-dark);
+        transform: translateX(3px);
+    }
+
+    /* ---------- PROGRESS ---------- */
+
+    .progress {
+        position: fixed;
+        top: 71px;
+        left: 0;
+        height: 3px;
+        width: 0%;
+        background: linear-gradient(90deg, var(--pink), var(--purple), var(--blue));
+        z-index: 1001;
+        transition: width .1s linear;
+    }
+
+    /* ---------- HERO ---------- */
+
+    .hero {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 75px 24px 45px;
+        text-align: center;
+    }
+
+    .plane {
+        width: 82px;
+        height: 82px;
+        margin: 0 auto 20px;
+        display: grid;
+        place-items: center;
+        border-radius: 28px;
+        font-size: 38px;
+        background: linear-gradient(135deg, #ffdce8, #e7deff);
+        box-shadow: var(--shadow);
+        transform: rotate(-4deg);
+    }
+
+    .hero h1 {
+        margin: 0 auto 12px;
+        max-width: 850px;
+        font-size: clamp(34px, 6vw, 68px);
+        line-height: 1.05;
+        letter-spacing: -2.5px;
+    }
+
+    .gradient-text {
+        background: linear-gradient(100deg, #ee648f, #9278e9, #62aee8);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    .hero p {
+        max-width: 680px;
+        margin: 0 auto;
+        color: var(--muted);
+        font-size: 17px;
+    }
+
+    /* ---------- FLIGHT CARD ---------- */
+
+    .flight-card {
+        max-width: 1000px;
+        margin: 20px auto 50px;
+        padding: 22px;
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        gap: 20px;
+        align-items: center;
+        background: var(--card);
+        backdrop-filter: blur(15px);
+        border: 1px solid var(--border);
+        border-radius: 28px;
+        box-shadow: var(--shadow);
+    }
+
+    .airport {
+        padding: 18px;
+        border-radius: 20px;
+        background: rgba(255,255,255,.7);
+    }
+
+    .airport small {
+        display: block;
+        color: var(--muted);
+        font-weight: 700;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .airport strong {
+        display: block;
+        font-size: 31px;
+        margin-top: 3px;
+    }
+
+    .airport span {
+        color: var(--muted);
+        font-size: 13px;
+    }
+
+    .route {
+        text-align: center;
+        color: var(--pink-dark);
+        font-size: 25px;
+    }
+
+    .route small {
+        display: block;
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 3px;
+    }
+
+    /* ---------- MAIN ---------- */
+
+    main {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0 20px 100px;
+    }
+
+    .intro-card {
+        margin-bottom: 35px;
+        padding: 30px;
+        background: linear-gradient(135deg, #fff, #fff5f8);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+    }
+
+    .intro-card h2 {
+        margin-top: 0;
+    }
+
+    /* ---------- SECTIONS ---------- */
+
+    .section {
+        position: relative;
+        margin: 35px 0;
+        padding: 34px;
+        background: rgba(255,255,255,.80);
+        backdrop-filter: blur(10px);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+    }
+
+    .section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background: linear-gradient(90deg, #ff91b3, #a28af3, #7cc7f5);
+    }
+
+    .section-number {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 7px 12px;
+        border-radius: 999px;
+        background: #fff0f5;
+        color: var(--pink-dark);
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: .5px;
+        text-transform: uppercase;
+    }
+
+    .section h2 {
+        margin: 15px 0 12px;
+        font-size: clamp(25px, 4vw, 36px);
+        line-height: 1.2;
+        letter-spacing: -.8px;
+    }
+
+    .section h3 {
+        margin-top: 28px;
+        margin-bottom: 10px;
+        font-size: 20px;
+    }
+
+    .section p {
+        color: #51495c;
+    }
+
+    .section ul {
+        padding-left: 22px;
+    }
+
+    .section li {
+        margin: 7px 0;
+    }
+
+    /* ---------- SPECIAL BOXES ---------- */
+
+    .important,
+    .tip,
+    .warning,
+    .quote,
+    .success {
+        margin: 22px 0;
+        padding: 20px 22px;
+        border-radius: 18px;
+    }
+
+    .important {
+        background: #fff1f5;
+        border-left: 4px solid var(--pink);
+    }
+
+    .tip {
+        background: #f0f7ff;
+        border-left: 4px solid var(--blue);
+    }
+
+    .warning {
+        background: #fff9e8;
+        border-left: 4px solid var(--yellow);
+    }
+
+    .success {
+        background: #effaf4;
+        border-left: 4px solid var(--green);
+    }
+
+    .quote {
+        background: linear-gradient(135deg, #f6f1ff, #fff0f7);
+        text-align: center;
+        font-size: 19px;
+        font-weight: 700;
+    }
+
+    .quote span {
+        display: block;
+        margin-top: 7px;
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 500;
+    }
+
+    /* ---------- STEPS ---------- */
+
+    .steps {
+        display: grid;
+        gap: 12px;
+        margin: 22px 0;
+    }
+
+    .step {
+        display: flex;
+        gap: 14px;
+        align-items: flex-start;
+        padding: 15px;
+        background: rgba(255,255,255,.7);
+        border: 1px solid var(--border);
+        border-radius: 17px;
+    }
+
+    .step-num {
+        flex: 0 0 32px;
+        width: 32px;
+        height: 32px;
+        display: grid;
+        place-items: center;
+        border-radius: 11px;
+        color: white;
+        background: linear-gradient(135deg, var(--pink), var(--purple));
+        font-size: 13px;
+        font-weight: 800;
+    }
+
+    .step strong {
+        display: block;
+    }
+
+    /* ---------- FLIGHT NUMBERS ---------- */
+
+    .flight-number {
+        display: inline-block;
+        padding: 7px 12px;
+        margin: 4px;
+        border-radius: 12px;
+        background: #f1edff;
+        color: #6d55cb;
+        font-weight: 900;
+    }
+
+    /* ---------- FINAL ---------- */
+
+    .final-card {
+        margin-top: 50px;
+        padding: 40px 28px;
+        text-align: center;
+        border-radius: 30px;
+        background: linear-gradient(135deg, #fff0f6, #f2eeff, #eaf8ff);
+        box-shadow: var(--shadow);
+    }
+
+    .final-card h2 {
+        font-size: 35px;
+        margin-top: 0;
+    }
+
+    .route-big {
+        margin: 25px 0;
+        font-weight: 900;
+        font-size: clamp(19px, 4vw, 28px);
+    }
+
+    /* ---------- BACK TOP ---------- */
+
+    #topButton {
+        position: fixed;
+        right: 22px;
+        bottom: 22px;
+        width: 48px;
+        height: 48px;
+        border: none;
+        border-radius: 16px;
+        background: var(--text);
+        color: white;
+        font-size: 19px;
+        cursor: pointer;
+        box-shadow: 0 10px 30px rgba(30,20,40,.2);
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(10px);
+        transition: .2s;
+        z-index: 999;
+    }
+
+    #topButton.show {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+    }
+
+    /* ---------- FOOTER ---------- */
+
+    footer {
+        text-align: center;
+        padding: 30px 20px 60px;
+        color: var(--muted);
+        font-size: 13px;
+    }
+
+    /* ---------- MOBILE ---------- */
+
+    @media (max-width: 700px) {
+
+        .topbar {
+            height: 64px;
+            padding: 0 15px;
+        }
+
+        .progress {
+            top: 63px;
+        }
+
+        .brand {
+            font-size: 14px;
+        }
+
+        .brand-icon {
+            width: 37px;
+            height: 37px;
+            border-radius: 12px;
+        }
+
+        .menu {
+            top: 73px;
+            right: 12px;
+            width: calc(100vw - 24px);
+        }
+
+        .hero {
+            padding: 55px 18px 30px;
+        }
+
+        .hero h1 {
+            letter-spacing: -1.5px;
+        }
+
+        .hero p {
+            font-size: 15px;
+        }
+
+        .flight-card {
+            grid-template-columns: 1fr;
+            margin: 10px 15px 35px;
+            padding: 15px;
+        }
+
+        .route {
+            transform: rotate(90deg);
+        }
+
+        main {
+            padding: 0 12px 70px;
+        }
+
+        .section {
+            padding: 24px 20px;
+            border-radius: 21px;
+        }
+
+        .intro-card {
+            padding: 24px 20px;
+        }
+
+        .section h2 {
+            font-size: 27px;
+        }
+
+        .section h3 {
+            font-size: 18px;
+        }
+
+        .airport strong {
+            font-size: 27px;
+        }
+
+        .final-card {
+            padding: 32px 20px;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+
+    <div class="brand">
+        <div class="brand-icon">✈️</div>
+        <span>First Flight Guide</span>
+    </div>
+
+    <button class="menu-button" id="menuButton" aria-label="Open menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+</header>
+
+<div class="progress" id="progress"></div>
+
+<nav class="menu" id="menu">
+
+    <div class="menu-title">Jump to a section</div>
+
+    <a href="#part1">🛫 Part 1 — Getting to LAX</a>
+    <a href="#part2">🎫 Part 2 — Check-in</a>
+    <a href="#part3">🛂 Part 3 — Security</a>
+    <a href="#part4">🏢 Part 4 — Airside</a>
+    <a href="#part5">🪑 Part 5 — Waiting at the gate</a>
+    <a href="#part6">✈️ Part 6 — Getting on TK180</a>
+    <a href="#part7">🌎 Part 7 — Long flight</a>
+    <a href="#part8">🇹🇷 Part 8 — Arriving in Istanbul</a>
+    <a href="#part9">🛂 Part 9 — Turkey immigration</a>
+    <a href="#part10">🧭 Part 10 — Finding TK384</a>
+    <a href="#part11">🚶 Part 11 — Walk to the gate</a>
+    <a href="#part12">🔔 Part 12 — Boarding</a>
+    <a href="#part13">✈️ Part 13 — Boarding TK384</a>
+    <a href="#part14">🇬🇪 Part 14 — Arriving in Tbilisi</a>
+    <a href="#part15">🚪 Part 15 — Leaving the airport</a>
+    <a href="#remember">🧠 What to remember</a>
+
+</nav>
+
+
+<section class="hero">
+
+    <div class="plane">✈️</div>
+
+    <h1>
+        Your First Flight
+        <span class="gradient-text">Made Easy</span>
+    </h1>
+
+    <p>
+        A step-by-step guide for going from Los Angeles to Istanbul,
+        then Istanbul to Tbilisi — without having to guess what to do.
+    </p>
+
+</section>
+
+
+<div class="flight-card">
+
+    <div class="airport">
+        <small>Departure</small>
+        <strong>LAX 🇺🇸</strong>
+        <span>Los Angeles</span>
+    </div>
+
+    <div class="route">
+        ✈️
+        <small>TK180</small>
+    </div>
+
+    <div class="airport">
+        <small>Connection</small>
+        <strong>IST 🇹🇷</strong>
+        <span>Istanbul</span>
+    </div>
+
+</div>
+
+
+<main>
+
+<div class="intro-card">
+
+    <h2>❤️ First: Don't Panic</h2>
+
+    <p>
+        Flying for the first time sounds complicated because airports have
+        a million signs, screens, gates, security lines and people walking
+        everywhere. In reality, you only need to do <strong>one step at a time.</strong>
+    </p>
+
+    <div class="steps">
+
+        <div class="step">
+            <div class="step-num">1</div>
+            <div><strong>Get to LAX</strong>Find Turkish Airlines.</div>
+        </div>
+
+        <div class="step">
+            <div class="step-num">2</div>
+            <div><strong>Check in</strong>Get your boarding pass and check your luggage.</div>
+        </div>
+
+        <div class="step">
+            <div class="step-num">3</div>
+            <div><strong>Security</strong>Go through TSA security.</div>
+        </div>
+
+        <div class="step">
+            <div class="step-num">4</div>
+            <div><strong>Find your gate</strong>Look for TK180 on the departure screens.</div>
+        </div>
+
+        <div class="step">
+            <div class="step-num">5</div>
+            <div><strong>Fly to Istanbul</strong>Board TK180.</div>
+        </div>
+
+        <div class="step">
+            <div class="step-num">6</div>
+            <div><strong>Transfer</strong>Follow International Transfer signs.</div>
+        </div>
+
+        <div class="step">
+            <div class="step-num">7</div>
+            <div><strong>Find TK384</strong>Check the Istanbul departure screens.</div>
+        </div>
+
+        <div class="step">
+            <div class="step-num">8</div>
+            <div><strong>Fly to Tbilisi</strong>Board TK384.</div>
+        </div>
+
+    </div>
+
+    <div class="success">
+        <strong>💗 Remember:</strong> You do NOT need to memorize the airport.
+        Your job is simply to find the next step.
+    </div>
+
+</div>
+
+
+<!-- PART 1 -->
+
+<section class="section" id="part1">
+
+    <span class="section-number">Part 1</span>
+
+    <h2>🛫 Getting to LAX</h2>
+
+    <p>
+        When you arrive at Los Angeles International Airport (LAX), you
+        need to find the Turkish Airlines check-in area.
+    </p>
+
+    <p>
+        Look for the large airport screens showing:
+    </p>
+
+    <div class="important">
+        <strong>Departures / Departures & Gates</strong>
+    </div>
+
+    <p>
+        Find:
+    </p>
+
+    <div class="flight-number">TK180 — Istanbul (IST)</div>
+
+    <p>
+        The screen will tell you the current check-in area, terminal/zone
+        and eventually your gate.
+    </p>
+
+    <p>
+        Go to the Turkish Airlines check-in desks.
+    </p>
+
+</section>
+
+
+<!-- PART 2 -->
+
+<section class="section" id="part2">
+
+    <span class="section-number">Part 2</span>
+
+    <h2>🎫 Check-in</h2>
+
+    <p>
+        At the Turkish Airlines counter, have your passport, flight
+        reservation/booking, any required travel documents and phone ready.
+    </p>
+
+    <p>
+        Tell the employee:
+    </p>
+
+    <div class="quote">
+        “I am flying to Istanbul and then connecting to Tbilisi.”
+    </div>
+
+    <p>
+        They will check your passport and reservation.
+    </p>
+
+    <p>
+        You may receive one or two boarding passes.
+    </p>
+
+    <p>
+        Ideally, because your whole journey is on the same Turkish Airlines
+        itinerary, you should receive your boarding pass for TK180 and,
+        if available, your connecting boarding pass for TK384.
+    </p>
+
+    <p>
+        They will also take your checked suitcase if you have one.
+    </p>
+
+    <h3>🧳 Very important — your checked bag</h3>
+
+    <p>
+        If you check a suitcase, look at the baggage tag they put on it.
+    </p>
+
+    <p>
+        Your final destination should normally be:
+    </p>
+
+    <div class="flight-number">TBS — Tbilisi</div>
+
+    <p>
+        if the entire journey is booked as one connected itinerary.
+    </p>
+
+    <p>
+        Ask the employee:
+    </p>
+
+    <div class="quote">
+        “Is my luggage checked all the way to Tbilisi?”
+    </div>
+
+    <p>
+        Wait for them to confirm.
+    </p>
+
+    <div class="warning">
+        <strong>⚠️ Important:</strong>
+        If they say yes, you do NOT collect your checked suitcase in Istanbul.
+        If they say no, follow their instructions.
+    </div>
+
+</section>
+
+
+<!-- PART 3 -->
+
+<section class="section" id="part3">
+
+    <span class="section-number">Part 3</span>
+
+    <h2>🛂 Security at LAX</h2>
+
+    <p>
+        After checking in, you need to go through airport security.
+    </p>
+
+    <p>
+        Look for signs saying:
+    </p>
+
+    <div class="important">
+        <strong>Security</strong><br>
+        or<br>
+        <strong>TSA Security</strong>
+    </div>
+
+    <p>
+        Follow the signs.
+    </p>
+
+    <p>
+        There will probably be a line.
+    </p>
+
+    <p>
+        When you reach the security checkpoint, follow the instructions
+        from the TSA officers.
+    </p>
+
+    <p>You may need to:</p>
+
+    <ul>
+        <li>Put your carry-on bag on the conveyor belt</li>
+        <li>Put certain electronics/items into a tray</li>
+        <li>Remove items from your pockets</li>
+        <li>Go through a scanner</li>
+        <li>Collect everything on the other side</li>
+    </ul>
+
+    <p>
+        The exact procedure can change, so just do what the TSA officer tells you.
+    </p>
+
+    <div class="tip">
+        <strong>💡 Tip:</strong>
+        Don't worry if everyone seems to know what they're doing.
+        You can simply copy the general process of the people in front of you.
+    </div>
+
+    <h3>🚨 Before walking away from security</h3>
+
+    <div class="important">
+        PHONE ✅<br>
+        PASSPORT ✅<br>
+        WALLET ✅<br>
+        BAG ✅<br>
+        HEADPHONES ✅
+    </div>
+
+    <p>
+        Your passport is the most important thing you have.
+    </p>
+
+</section>
+
+
+<!-- PART 4 -->
+
+<section class="section" id="part4">
+
+    <span class="section-number">Part 4</span>
+
+    <h2>🏢 You are now airside</h2>
+
+    <p>
+        Once you pass security, you are inside the secure part of the airport.
+    </p>
+
+    <p>
+        Now you need to find your <strong>GATE.</strong>
+    </p>
+
+    <h3>❓ What is a gate?</h3>
+
+    <p>
+        A gate is basically the specific airport area where passengers
+        wait before boarding their airplane.
+    </p>
+
+    <div class="tip">
+        <strong>Think of it like this:</strong><br><br>
+        Airport → Terminal → Gate → Airplane
+    </div>
+
+    <p>
+        For example:
+    </p>
+
+    <div class="success">
+        <strong>Gate 52 → wait there → TK180 boards → walk onto airplane</strong>
+    </div>
+
+    <h3>🖥️ How to find your gate</h3>
+
+    <p>
+        Find a large screen showing:
+    </p>
+
+    <div class="important">
+        <strong>DEPARTURES</strong>
+    </div>
+
+    <p>
+        Find:
+    </p>
+
+    <div class="flight-number">TK180</div>
+
+    <p>
+        Then look across the same row.
+    </p>
+
+    <p>
+        You should see information such as:
+    </p>
+
+    <div class="success">
+        TK180 — ISTANBUL — GATE XX — BOARDING XX:XX
+    </div>
+
+    <div class="warning">
+        <strong>⚠️ The gate can change.</strong><br>
+        That is NORMAL.
+    </div>
+
+    <p>
+        If your boarding pass says Gate 60 but the airport screen later says
+        Gate 52:
+    </p>
+
+    <div class="important">
+        <strong>FOLLOW THE AIRPORT SCREEN.</strong>
+    </div>
+
+    <p>
+        Airport screens are the latest information.
+    </p>
+
+</section>
+
+
+<!-- PART 5 -->
+
+<section class="section" id="part5">
+
+    <span class="section-number">Part 5</span>
+
+    <h2>🪑 Waiting at the gate</h2>
+
+    <p>
+        Once you find the gate, check the screen near the gate.
+    </p>
+
+    <p>
+        It should show information for your flight.
+    </p>
+
+    <p>
+        You can sit down and wait.
+    </p>
+
+    <p>
+        You do NOT need to stare at the airplane the entire time.
+    </p>
+
+    <p>
+        Listen for announcements and check the screen occasionally.
+    </p>
+
+    <h3>🚪 What does "boarding" mean?</h3>
+
+    <p>
+        <strong>Boarding = getting onto the airplane.</strong>
+    </p>
+
+    <p>
+        When boarding begins, passengers line up near the gate.
+    </p>
+
+    <p>
+        You will show your boarding pass + passport to the staff.
+    </p>
+
+    <p>
+        They scan/check your boarding pass.
+    </p>
+
+    <p>
+        Then you follow the signs/staff toward the airplane.
+    </p>
+
+    <p>
+        Sometimes you walk directly through a tunnel called a
+        <strong>jet bridge.</strong>
+    </p>
+
+    <p>
+        Sometimes a bus takes passengers from the terminal to the airplane.
+    </p>
+
+    <div class="tip">
+        <strong>💡 Don't worry about knowing which one.</strong>
+        Just follow the airport staff and the other passengers.
+    </div>
+
+</section>
+
+
+<!-- PART 6 -->
+
+<section class="section" id="part6">
+
+    <span class="section-number">Part 6</span>
+
+    <h2>✈️ Getting on TK180</h2>
+
+    <p>
+        When you enter the airplane, look at your boarding pass.
+    </p>
+
+    <p>
+        It will have your:
+    </p>
+
+    <div class="important">
+        <strong>Seat number</strong>
+    </div>
+
+    <p>
+        For example:
+    </p>
+
+    <div class="flight-number">24A</div>
+
+    <p>
+        This means:
+    </p>
+
+    <div class="tip">
+        <strong>Row 24 + Seat A</strong>
+    </div>
+
+    <p>
+        There will be numbers above the seats showing the rows.
+    </p>
+
+    <p>
+        Walk down the airplane until you reach your row.
+    </p>
+
+    <p>
+        If you're confused, ask a flight attendant:
+    </p>
+
+    <div class="quote">
+        “Excuse me, could you help me find seat 24A?”
+    </div>
+
+    <p>
+        They will help you.
+    </p>
+
+    <p>
+        Put your carry-on in the overhead compartment if appropriate,
+        or under the seat in front of you.
+    </p>
+
+    <p>
+        Then sit down.
+    </p>
+
+    <h3>🎧 On the plane</h3>
+
+    <p>
+        Once everyone is seated, the crew will demonstrate the safety instructions.
+    </p>
+
+    <p>
+        You don't need to memorize everything.
+    </p>
+
+    <p>Just pay attention to:</p>
+
+    <ul>
+        <li>Seat belt</li>
+        <li>Emergency exits</li>
+        <li>Oxygen masks</li>
+        <li>Safety card</li>
+    </ul>
+
+    <p>
+        Keep your seat belt fastened whenever you're seated, especially
+        when the seat-belt sign is on.
+    </p>
+
+</section>
+
+
+<!-- PART 7 -->
+
+<section class="section" id="part7">
+
+    <span class="section-number">Part 7</span>
+
+    <h2>🌎 The 12+ hour flight to Istanbul</h2>
+
+    <p>
+        TK180 is the long part of the journey.
+    </p>
+
+    <p>
+        The flight will be many hours, so don't expect it to feel like
+        a normal short flight.
+    </p>
+
+    <p>You can:</p>
+
+    <ul>
+        <li>Sleep</li>
+        <li>Watch movies</li>
+        <li>Use your phone when permitted</li>
+        <li>Listen to music</li>
+        <li>Eat the meals provided</li>
+        <li>Drink water</li>
+        <li>Walk around occasionally when the seat-belt sign is off</li>
+    </ul>
+
+    <p>
+        There will be toilets on the airplane.
+    </p>
+
+    <p>
+        If you want to use one, you can simply get up when the
+        seat-belt sign is off and go.
+    </p>
+
+    <p>
+        If the sign is on, stay seated unless there is an emergency.
+    </p>
+
+    <h3>💺 Don't worry about the airplane moving</h3>
+
+    <p>
+        You will hear strange noises.
+    </p>
+
+    <p>You may feel the airplane:</p>
+
+    <ul>
+        <li>Shake</li>
+        <li>Vibrate</li>
+        <li>Turn</li>
+        <li>Go up/down slightly</li>
+        <li>Make loud engine sounds</li>
+        <li>Make noises during takeoff and landing</li>
+    </ul>
+
+    <div class="success">
+        <strong>❤️ That is normal.</strong><br>
+        The aircraft is designed for this.
+    </div>
+
+</section>
+
+
+<!-- PART 8 -->
+
+<section class="section" id="part8">
+
+    <span class="section-number">Part 8</span>
+
+    <h2>🇹🇷 Arriving in Istanbul</h2>
+
+    <div class="important">
+        <strong>
+            THIS IS THE PART THAT SOUNDS SCARY BUT IS ACTUALLY SIMPLE.
+        </strong>
+    </div>
+
+    <p>
+        You land at:
+    </p>
+
+    <div class="flight-number">Istanbul Airport — IST</div>
+
+    <p>
+        You have approximately 4 hours before your Tbilisi flight.
+    </p>
+
+    <p>
+        You are NOT finished with your journey.
+    </p>
+
+    <p>
+        You still need to find:
+    </p>
+
+    <div class="flight-number">TK384 — Tbilisi</div>
+
+    <h3>🚨 Very important</h3>
+
+    <p>
+        Do NOT automatically follow “EXIT / BAGGAGE CLAIM / ARRIVALS.”
+    </p>
+
+    <p>
+        You are connecting to another international flight.
+    </p>
+
+    <p>
+        You want to follow signs that say:
+    </p>
+
+    <div class="success">
+        <strong>🔵 INTERNATIONAL TRANSFERS</strong><br><br>
+        or<br><br>
+        <strong>🔵 TRANSFER / TRANSIT</strong>
+    </div>
+
+</section>
+
+
+<!-- PART 9 -->
+
+<section class="section" id="part9">
+
+    <span class="section-number">Part 9</span>
+
+    <h2>🛂 Do we go through Turkey immigration?</h2>
+
+    <p>
+        Because Istanbul is only your connection and your destination is
+        Tbilisi, you normally follow the international transfer route
+        rather than entering Turkey.
+    </p>
+
+    <p>
+        You should not go toward baggage claim or Turkish arrivals unless
+        airport staff specifically directs you there.
+    </p>
+
+    <p>
+        There may still be another security check for connecting passengers.
+    </p>
+
+    <div class="tip">
+        <strong>If there is:</strong><br><br>
+        Follow the line → put your belongings through security →
+        collect them → continue following TRANSFER signs.
+    </div>
+
+    <p>
+        Your exact route depends on the airport's current procedures.
+    </p>
+
+</section>
+
+
+<!-- PART 10 -->
+
+<section class="section" id="part10">
+
+    <span class="section-number">Part 10</span>
+
+    <h2>🧭 Finding TK384</h2>
+
+    <p>
+        Once you're in the transfer area, look for the big airport screens again.
+    </p>
+
+    <p>
+        Find:
+    </p>
+
+    <div class="flight-number">TK384 — TBILISI</div>
+
+    <p>
+        The screen should show the current:
+    </p>
+
+    <div class="success">
+        <strong>Gate</strong>
+    </div>
+
+    <p>
+        and eventually:
+    </p>
+
+    <div class="success">
+        <strong>Boarding time</strong>
+    </div>
+
+    <div class="important">
+        <strong>⭐ THE GOLDEN RULE</strong><br><br>
+        Your flight number is more important than your gate number.
+    </div>
+
+    <p>
+        Always search for:
+    </p>
+
+    <div class="flight-number">TK384</div>
+
+    <p>
+        Not just “Tbilisi.”
+    </p>
+
+    <p>
+        Not just “Georgia.”
+    </p>
+
+    <p>
+        Not just a gate number.
+    </p>
+
+    <p>
+        Find <strong>TK384</strong> on the departure board.
+    </p>
+
+</section>
+
+
+<!-- PART 11 -->
+
+<section class="section" id="part11">
+
+    <span class="section-number">Part 11</span>
+
+    <h2>🚶 Walk to the gate</h2>
+
+    <p>
+        Istanbul Airport is HUGE.
+    </p>
+
+    <p>
+        You may have to walk quite a long distance.
+    </p>
+
+    <p>
+        That's completely normal.
+    </p>
+
+    <p>
+        Follow signs toward the gate shown for TK384.
+    </p>
+
+    <p>
+        You may see signs such as:
+    </p>
+
+    <div class="tip">
+        <strong>A →</strong><br>
+        <strong>B →</strong><br>
+        <strong>C →</strong><br>
+        <strong>F →</strong>
+    </div>
+
+    <p>
+        These are different gate areas.
+    </p>
+
+    <p>
+        Follow the signs corresponding to your gate.
+    </p>
+
+    <p>
+        If the screen says:
+    </p>
+
+    <div class="success">
+        <strong>TK384 — Gate F12</strong>
+    </div>
+
+    <p>
+        follow:
+    </p>
+
+    <div class="flight-number">F →</div>
+
+    <p>
+        Then:
+    </p>
+
+    <div class="flight-number">F12</div>
+
+    <h3>⏰ You have 4 hours</h3>
+
+    <p>
+        Four hours is a comfortable amount of time for a normal international
+        connection.
+    </p>
+
+    <p>
+        But don't think:
+    </p>
+
+    <div class="quote">
+        “I have four hours, I'll explore the entire airport first.”
+    </div>
+
+    <p>
+        Instead:
+    </p>
+
+    <div class="success">
+        <strong>FIRST: Find your gate.</strong>
+    </div>
+
+    <p>
+        Once you know where your gate is, THEN you can relax.
+    </p>
+
+    <p>
+        You can get food, use the bathroom, charge your phone, walk around,
+        etc.
+    </p>
+
+    <p>
+        But keep an eye on the departure screens.
+    </p>
+
+</section>
+
+
+<!-- PART 12 -->
+
+<section class="section" id="part12">
+
+    <span class="section-number">Part 12</span>
+
+    <h2>🔔 How do you know when to board?</h2>
+
+    <p>
+        There are several ways.
+    </p>
+
+    <h3>1️⃣ The screen</h3>
+
+    <p>
+        The departure screen will change.
+    </p>
+
+    <div class="success">
+        <strong>BOARDING</strong><br><br>
+        or<br><br>
+        <strong>FINAL CALL</strong>
+    </div>
+
+    <h3>2️⃣ Announcements</h3>
+
+    <p>
+        The airport may announce the flight.
+    </p>
+
+    <h3>3️⃣ The gate screen</h3>
+
+    <p>
+        The screen directly at your gate will show information for TK384.
+    </p>
+
+    <h3>4️⃣ Your phone</h3>
+
+    <p>
+        Turkish Airlines may provide notifications through its app/booking
+        system if notifications are enabled.
+    </p>
+
+    <div class="warning">
+        <strong>🚨 DO NOT RELY ONLY ON YOUR PHONE.</strong><br><br>
+        The airport screens are your main source of truth.
+    </div>
+
+    <h3>🚨 What if the gate changes?</h3>
+
+    <p>
+        Don't panic.
+    </p>
+
+    <p>
+        This happens.
+    </p>
+
+    <p>
+        Imagine you are sitting at Gate F12.
+    </p>
+
+    <p>
+        Then the airport screen changes:
+    </p>
+
+    <div class="important">
+        <strong>TK384 → Gate F18</strong>
+    </div>
+
+    <p>
+        That's not a disaster.
+    </p>
+
+    <p>
+        Simply follow the signs to F18 and go there.
+    </p>
+
+    <p>
+        Always check the screens periodically.
+    </p>
+
+</section>
+
+
+<!-- PART 13 -->
+
+<section class="section" id="part13">
+
+    <span class="section-number">Part 13</span>
+
+    <h2>✈️ Boarding TK384</h2>
+
+    <p>
+        When TK384 starts boarding:
+    </p>
+
+    <p>
+        Take:
+    </p>
+
+    <div class="important">
+        <strong>Passport + boarding pass</strong>
+    </div>
+
+    <p>
+        and go to the gate.
+    </p>
+
+    <p>
+        The staff will check/scan your boarding pass.
+    </p>
+
+    <p>
+        Then you board the airplane.
+    </p>
+
+    <p>
+        Find your seat exactly like you did on TK180.
+    </p>
+
+    <p>
+        Put your carry-on away.
+    </p>
+
+    <p>
+        Sit down.
+    </p>
+
+    <p>
+        Seat belt.
+    </p>
+
+    <div class="success">
+        <strong>You're on the final flight. 🇬🇪</strong>
+    </div>
+
+</section>
+
+
+<!-- PART 14 -->
+
+<section class="section" id="part14">
+
+    <span class="section-number">Part 14</span>
+
+    <h2>🇬🇪 Arriving in Tbilisi</h2>
+
+    <p>
+        After landing in Tbilisi, leave the airplane.
+    </p>
+
+    <p>
+        Now you are actually entering Georgia.
+    </p>
+
+    <p>
+        Follow signs for:
+    </p>
+
+    <div class="important">
+        <strong>ARRIVALS</strong><br><br>
+        <strong>PASSPORT CONTROL / IMMIGRATION</strong>
+    </div>
+
+    <p>
+        You will go through Georgian border control.
+    </p>
+
+    <p>
+        Have your passport ready.
+    </p>
+
+    <p>
+        Follow the instructions of the border officers.
+    </p>
+
+    <p>
+        After passport control, follow signs for:
+    </p>
+
+    <div class="success">
+        <strong>BAGGAGE CLAIM</strong>
+    </div>
+
+    <p>
+        If you checked a suitcase all the way to Tbilisi, find the baggage
+        carousel for your flight.
+    </p>
+
+    <p>
+        The airport screens will tell you which carousel to use.
+    </p>
+
+    <p>
+        Wait for your suitcase.
+    </p>
+
+    <p>
+        Check the luggage tag if you're unsure that it's yours.
+    </p>
+
+    <h3>🧳 If your bag doesn't appear</h3>
+
+    <p>
+        Don't panic.
+    </p>
+
+    <p>
+        Go to the airline's baggage service desk and show them:
+    </p>
+
+    <ul>
+        <li>Passport</li>
+        <li>Baggage tag</li>
+        <li>Boarding pass</li>
+    </ul>
+
+    <p>
+        Tell them:
+    </p>
+
+    <div class="quote">
+        “My checked luggage hasn't arrived.”
+    </div>
+
+    <p>
+        They can locate it and tell you what happens next.
+    </p>
+
+</section>
+
+
+<!-- PART 15 -->
+
+<section class="section" id="part15">
+
+    <span class="section-number">Part 15</span>
+
+    <h2>🚪 Leaving the airport</h2>
+
+    <p>
+        After collecting your luggage, follow:
+    </p>
+
+    <div class="success">
+        <strong>EXIT</strong>
+    </div>
+
+    <p>
+        You will eventually reach the public arrivals area.
+    </p>
+
+    <div class="final-card">
+        <h2>🎉 That's it!</h2>
+        <p>
+            You made it from Los Angeles all the way to Tbilisi.
+        </p>
+    </div>
+
+</section>
+
+
+<!-- REMEMBER -->
+
+<section class="section" id="remember">
+
+    <span class="section-number">🧠 Remember</span>
+
+    <h2>The only things you really need to remember</h2>
+
+    <p>
+        If everything becomes confusing, remember these three rules:
+    </p>
+
+    <h3>RULE #1 — FOLLOW THE SIGNS</h3>
+
+    <div class="tip">
+        <strong>At LAX:</strong><br>
+        CHECK-IN → SECURITY → GATE
+        <br><br>
+        <strong>At Istanbul:</strong><br>
+        TRANSFER → INTERNATIONAL TRANSFER → TK384 → GATE
+        <br><br>
+        <strong>At Tbilisi:</strong><br>
+        PASSPORT CONTROL → BAGGAGE CLAIM → EXIT
+    </div>
+
+    <h3>RULE #2 — FOLLOW YOUR FLIGHT NUMBER</h3>
+
+    <p>Your two flight numbers are:</p>
+
+    <div class="flight-number">✈️ TK180</div>
+    <strong>LAX → IST</strong>
+
+    <p>then</p>
+
+    <div class="flight-number">✈️ TK384</div>
+    <strong>IST → TBS</strong>
+
+    <p>
+        If you're lost, find an airport screen and look for the flight number.
+    </p>
+
+    <h3>RULE #3 — ASK FOR HELP</h3>
+
+    <p>
+        There is absolutely nothing embarrassing about asking.
+    </p>
+
+    <p>
+        Show your boarding pass and say:
+    </p>
+
+    <div class="quote">
+        “I have TK384 to Tbilisi. Where do I go?”
+    </div>
+
+    <p>
+        An airport employee will understand immediately.
+    </p>
+
+    <p>
+        You don't need perfect English.
+    </p>
+
+    <p>
+        You don't need to know the airport.
+    </p>
+
+    <p>
+        You don't need to understand every sign.
+    </p>
+
+    <p>
+        You just need to find the <strong>next step.</strong>
+    </p>
+
+</section>
+
+
+<div class="final-card">
+
+    <h2>❤️ Final message</h2>
+
+    <p>
+        You're not going to be dropped into a giant airport and told:
+    </p>
+
+    <div class="quote">
+        “Good luck, figure it out.”
+    </div>
+
+    <p>
+        Airports are designed so millions of people can navigate them every day.
+    </p>
+
+    <p>
+        There are signs everywhere.
+    </p>
+
+    <p>
+        There are departure screens everywhere.
+    </p>
+
+    <p>
+        There are airport employees everywhere.
+    </p>
+
+    <p>
+        Your boarding pass tells you your flight.
+    </p>
+
+    <p>
+        Your flight number tells you what to look for.
+    </p>
+
+    <p>
+        And your connecting flight is already planned into your itinerary.
+    </p>
+
+    <div class="route-big">
+        🇺🇸 LAX<br>
+        ↓<br>
+        ✈️ TK180<br>
+        ↓<br>
+        🇹🇷 ISTANBUL<br>
+        ↓<br>
+        ✈️ TK384<br>
+        ↓<br>
+        🇬🇪 TBILISI
+    </div>
+
+    <h2>One step at a time. ❤️</h2>
+
+    <p>
+        You've got this.
+    </p>
+
+</div>
+
+</main>
+
+
+<footer>
+    Made with ❤️ for a first-time flyer.
+</footer>
+
+
+<button id="topButton" aria-label="Back to top">↑</button>
+
+
+<script>
+
+    const menuButton = document.getElementById("menuButton");
+    const menu = document.getElementById("menu");
+    const topButton = document.getElementById("topButton");
+    const progress = document.getElementById("progress");
+
+    /* Open / close menu */
+
+    menuButton.addEventListener("click", () => {
+        menu.classList.toggle("open");
+    });
+
+    /* Close menu when a section is selected */
+
+    document.querySelectorAll(".menu a").forEach(link => {
+
+        link.addEventListener("click", () => {
+            menu.classList.remove("open");
+        });
+
+    });
+
+    /* Close menu when clicking outside */
+
+    document.addEventListener("click", (event) => {
+
+        if (
+            menu.classList.contains("open") &&
+            !menu.contains(event.target) &&
+            !menuButton.contains(event.target)
+        ) {
+            menu.classList.remove("open");
+        }
+
+    });
+
+    /* Reading progress */
+
+    window.addEventListener("scroll", () => {
+
+        const scrollTop = window.scrollY;
+        const documentHeight =
+            document.documentElement.scrollHeight - window.innerHeight;
+
+        const percentage =
+            documentHeight > 0
+                ? (scrollTop / documentHeight) * 100
+                : 0;
+
+        progress.style.width = percentage + "%";
+
+        /* Back-to-top button */
+
+        if (scrollTop > 500) {
+            topButton.classList.add("show");
+        } else {
+            topButton.classList.remove("show");
+        }
+
+    });
+
+    /* Back to top */
+
+    topButton.addEventListener("click", () => {
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    });
+
+</script>
+
+</body>
+</html>
+```
